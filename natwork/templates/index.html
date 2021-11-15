@@ -5,8 +5,8 @@
 
             {% for post in posts %}
         <h3>
-                Автор: {{ post.author.get_full_name }}, дата публикации: {{ post.pub_date|date:"d M Y" }},
-                группа: {{ post.publik }}
+                Автор: {{ post.author.get_full_name }}, дата публикации: {{ post.pub_date }},
+
         </h3>
         <p> {{post.text|linebreaksbr}} </p>
         {% if not forloop.last %} <hr> {% endif %}

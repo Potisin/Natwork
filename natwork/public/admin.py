@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Publik
+from .models import Public
 
 
 class PublikAdmin(admin.ModelAdmin):
@@ -8,4 +8,4 @@ class PublikAdmin(admin.ModelAdmin):
     search_fields = ('slug',)
 
 
-admin.site.register(Publik, PublikAdmin)
+admin.site.register(Public, PublikAdmin)
