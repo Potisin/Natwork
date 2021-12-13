@@ -1,16 +1,16 @@
-from datetime import datetime
-
+from django.core.paginator import Paginator
 from django.shortcuts import render, redirect
 from .forms import PostForm
 from .models import Post
 
 
 def index(request):
-    latest = Post.objects.order_by('-pub_date')[:10]
-    output = []
-    for item in latest:
-        output.append(item.text)
-    return render(request, 'index.html', {'posts': latest})
+    post_list = Post.objects.all().order_by('-pub_date')
+    paginator = Paginator(post_list, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    context = {'page_obj': page_obj}
+    return render(request, 'posts/index.html', context)
 
 
 def new_post(request):
@@ -22,8 +22,8 @@ def new_post(request):
             post.save()
             return redirect('index')
 
-        return render(request, 'new.html', {'form': form})
+        return render(request, 'posts/new.html', {'form': form})
     form = PostForm()
-    return render(request, 'new.html', {'form': form})
+    return render(request, 'posts/new.html', {'form': form})
 
 

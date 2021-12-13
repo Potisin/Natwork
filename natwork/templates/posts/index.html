@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %} Последние обновления на сайте {% endblock %}
+{% block header %} Последние обновления на сайте {% endblock %}
+{% block content %}
+
+    {% for post in page_obj %}
+    <h3>
+        Автор: {{ post.author.get_full_name }}, дата публикации: {{ post.pub_date }},
+
+    </h3>
+    <p> {{post.text|linebreaksbr}} </p>
+    {% if not forloop.last %}
+    <hr> {% endif %}
+
+    {% endfor %}
+
+    {% include 'posts/includes/paginator.html' %}
+
+{% endblock %}
+</body>
+</html>
