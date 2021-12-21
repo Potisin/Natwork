@@ -1,10 +1,13 @@
 from django.urls import path
 
-from users.urls import app_name
+
 from . import views
 
 app_name = 'posts'
 urlpatterns = [
     path('', views.index, name='index'),
-    path('new', views.new_post, name='new_post')
+    path('new', views.new_post, name='new_post'),
+    path('profile/<str:username>/', views.profile, name='profile'),
+    path('posts/<int:post_id>', views.post_detail, name='post_detail'),
+
 ]
