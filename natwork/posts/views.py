@@ -1,7 +1,9 @@
+import username as username
+
 from core.services.paginator import my_paginator
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PostForm
-from .models import Post
+from .models import Post, User
 
 
 def index(request):
@@ -17,15 +19,16 @@ def new_post(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect('index')
+            return redirect('posts:index')
 
         return render(request, 'posts/new.html', {'form': form})
     form = PostForm()
     return render(request, 'posts/new.html', {'form': form})
 
 
-def profile(request):
-    author = request.user
+def profile(request, slug):
+    author = get_object_or_404(User, slug=slug)
+    # author = request.user
     posts_by_author = Post.objects.filter(user=author).order_by('-pub_date')
     count_posts = posts_by_author.count()
     context = {'author': author,
