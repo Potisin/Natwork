@@ -26,7 +26,7 @@ SECRET_KEY = 'lrwb%_&rb^*fi(rnu3g*su8)8omy=#r-4k3qw2p5iq5awk@5x*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['potisin.pythonanywhere.com']
 
 
 # Application definition
@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'django_extensions',
+    #'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -126,6 +126,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
@@ -136,3 +137,5 @@ LOGIN_REDIRECT_URL = "posts:index"
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 # указываем директорию, в которую будут складываться файлы писем
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = Path(BASE_DIR / 'media')
