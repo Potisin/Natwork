@@ -1,5 +1,5 @@
 from core.services.paginator import my_paginator
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PostForm
 from .models import Post
 
@@ -24,17 +24,20 @@ def new_post(request):
     return render(request, 'posts/new.html', {'form': form})
 
 
-def profile(request, username):
+def profile(request):
     author = request.user
     posts_by_author = Post.objects.filter(author=author.id).order_by('-pub_date')
     count_posts = posts_by_author.count()
     context = {'author': author,
-              'page_obj': my_paginator(request, posts_by_author, 10),
-              'count_posts': count_posts
-              }
+               'page_obj': my_paginator(request, posts_by_author, 10),
+               'count_posts': count_posts
+               }
     return render(request, 'posts/profile.html', context)
 
 
-# def post_detail(request):
-#     context = {}
-#     return render(request, 'posts/post_detail.html', context)
+def post_detail(request, post_id):
+    post_by_id = get_object_or_404(Post, pk=post_id)
+    count_author_posts = Post.objects.filter(author=post_by_id.author).count()
+    context = {'post_by_id': post_by_id,
+               'count_author_posts': count_author_posts}
+    return render(request, 'posts/post_detail.html', context)

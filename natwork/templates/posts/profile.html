@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %} Новая запись {% endblock %}
+{% block title %} {{ author.get_full_name }} {% endblock %}
 {% block header %}  {% endblock %}
 {% block content %}
 
@@ -12,12 +12,15 @@
 
     </h3>
     <p> {{post.text|linebreaksbr}} </p>
+    <a href="{% url 'posts:post_detail' post.id %}">подробная информация </a>
+    {% if post.public.title %}
+    <a href="{% url 'public' post.public.slug %}"> {{post.public.title}}  </a>
+
+    {% endif %}
     {% if not forloop.last %}
     <hr>
     {% endif %}
 
-    <a href="<!-- -->">подробная информация </a>
-    <a href="<!-- -->">все записи группы</a>
 
     {% endfor %}
 
