@@ -26,7 +26,7 @@ SECRET_KEY = 'lrwb%_&rb^*fi(rnu3g*su8)8omy=#r-4k3qw2p5iq5awk@5x*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['potisin.pythonanywhere.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
