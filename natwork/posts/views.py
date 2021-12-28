@@ -18,8 +18,8 @@ def new_post(request):
             post.author = request.user
             post.save()
             return redirect('posts:index')
-
         return render(request, 'posts/new.html', {'form': form})
+
     form = PostForm()
     return render(request, 'posts/new.html', {'form': form})
 
@@ -36,8 +36,24 @@ def profile(request):
 
 
 def post_detail(request, post_id):
-    post_by_id = get_object_or_404(Post, pk=post_id)
-    count_author_posts = Post.objects.filter(author=post_by_id.author).count()
-    context = {'post_by_id': post_by_id,
+    post = get_object_or_404(Post, pk=post_id)
+    count_author_posts = Post.objects.filter(author=post.author).count()
+    context = {'post': post,
                'count_author_posts': count_author_posts}
     return render(request, 'posts/post_detail.html', context)
+
+def edit_post(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('posts:index')
+        return render(request, 'posts/new.html', {'form': form})
+    form = PostForm(instance=post)
+    return render(request, 'posts/new.html', {'form': form})
+
+
+

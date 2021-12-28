@@ -1,17 +1,19 @@
 {% extends "base.html" %}
-{% block title %} {{ post_by_id|truncatewords:30 }} {% endblock %}
+{% block title %} {{ post|truncatewords:30 }} {% endblock %}
 {% block header %}  {% endblock %}
 {% block content %}
 
 <div class="container py-5">
-    <h1> {{ post_by_id.author.get_full_name }} </h1>
+    <h1> {{ post.author.get_full_name }} </h1>
         <h3>Всего постов: {{ count_author_posts }} </h3>
 
     <h3>
-        Дата публикации: {{ post_by_id.pub_date }}.
+        Дата публикации: {{ post.pub_date }}.
 
     </h3>
-    <p> {{post_by_id.text|linebreaksbr}} </p>
+    <p> {{post.text|linebreaksbr}} </p>
+
+    <a href="{% url 'posts:edit_post' post.id %}"> Редактировать </a>
 
 
     {% endblock %}

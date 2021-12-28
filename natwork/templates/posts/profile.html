@@ -15,8 +15,8 @@
     <a href="{% url 'posts:post_detail' post.id %}">подробная информация </a>
     {% if post.public.title %}
     <a href="{% url 'public' post.public.slug %}"> {{post.public.title}}  </a>
-
     {% endif %}
+
     {% if not forloop.last %}
     <hr>
     {% endif %}
