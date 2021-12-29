@@ -6,6 +6,9 @@ User = get_user_model()
 
 
 class CreationForm(UserCreationForm):
+    first_name = forms.CharField(label='Имя', max_length=30, required=True)
+    last_name = forms.CharField(label='Фамилия', max_length=30, required=True)
+
     class Meta(UserCreationForm.Meta):
         model = User
         fields = ('first_name', 'last_name', 'username', 'email')

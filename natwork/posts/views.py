@@ -1,3 +1,6 @@
+import author as author
+import instance as instance
+
 from core.services.paginator import my_paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PostForm
@@ -42,18 +45,17 @@ def post_detail(request, post_id):
                'count_author_posts': count_author_posts}
     return render(request, 'posts/post_detail.html', context)
 
+
 def edit_post(request, post_id):
-    post = get_object_or_404(Post, pk=post_id)
+    current_post = get_object_or_404(Post, pk=post_id)
     if request.method == 'POST':
-        form = PostForm(request.POST, instance=post)
+        form = PostForm(request.POST, instance=current_post)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
+            post.pub_date = current_post.pub_date
             post.save()
             return redirect('posts:index')
         return render(request, 'posts/new.html', {'form': form})
-    form = PostForm(instance=post)
+    form = PostForm(instance=current_post)
     return render(request, 'posts/new.html', {'form': form})
-
-
-
