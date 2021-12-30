@@ -1,7 +1,5 @@
-import null as null
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.db.transaction import commit
 
 from public.models import Public
 
