@@ -26,7 +26,7 @@ SECRET_KEY = 'lrwb%_&rb^*fi(rnu3g*su8)8omy=#r-4k3qw2p5iq5awk@5x*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['potisin.pythonanywhere.com']
 
 
 # Application definition
@@ -127,8 +127,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 
+# STATIC_URL = '/home/potisin/potisin.pythonanywhere.com/natwork/static'
+
+# STATIC_ROOT = os.path.join(BASE_DIR, "natwork", "static")
+
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+
+STATIC_ROOT = '/home/potisin/potisin.pythonanywhere.com/natwork/static'
+
 
 LOGIN_URL = "/auth/login/"
 LOGIN_REDIRECT_URL = "posts:index"

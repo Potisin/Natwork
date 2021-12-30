@@ -1,7 +1,7 @@
 from core.services.paginator import my_paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PostForm
-from .models import Post
+from .models import Post, User
 
 
 def index(request):
@@ -24,8 +24,22 @@ def new_post(request):
     return render(request, 'posts/new.html', {'form': form})
 
 
-def profile(request):
-    author = request.user
+def edit_post(request, post_id):
+    current_post = Post.objects.defer('pub_date').filter(pk=post_id).first()
+    if request.method == 'POST':
+        form = PostForm(request.POST, instance=current_post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('posts:index')
+        return render(request, 'posts/new.html', {'form': form})
+    form = PostForm(instance=current_post)
+    return render(request, 'posts/new.html', {'form': form})
+
+
+def profile(request, username):
+    author = User.objects.get(username=username)
     posts_by_author = Post.objects.filter(author=author.id).order_by('-pub_date')
     count_posts = posts_by_author.count()
     context = {'author': author,
@@ -43,15 +57,4 @@ def post_detail(request, post_id):
     return render(request, 'posts/post_detail.html', context)
 
 
-def edit_post(request, post_id):
-    current_post = Post.objects.defer('pub_date').filter(pk=post_id).first()
-    if request.method == 'POST':
-        form = PostForm(request.POST, instance=current_post)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
-            return redirect('posts:index')
-        return render(request, 'posts/new.html', {'form': form})
-    form = PostForm(instance=current_post)
-    return render(request, 'posts/new.html', {'form': form})
+

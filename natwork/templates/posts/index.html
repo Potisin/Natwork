@@ -5,7 +5,9 @@
 
     {% for post in page_obj %}
     <h3>
-        Автор: {{ post.author.get_full_name }}, дата публикации: {{ post.pub_date }},
+        Автор:
+        <a href="{% url 'posts:profile' post.author.username %}"> {{ post.author.get_full_name }}</a>
+        , дата публикации: {{ post.pub_date }},
 
     </h3>
     <p> {{post.text|linebreaksbr}} </p>

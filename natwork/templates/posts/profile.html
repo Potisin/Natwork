@@ -12,7 +12,10 @@
 
     </h3>
     <p> {{post.text|linebreaksbr}} </p>
-    <a href="{% url 'posts:post_detail' post.id %}">подробная информация </a>
+    <a href="{% url 'posts:post_detail' post.id %}"> <button type="button" class="btn btn-primary">Подробнее</button> </a>
+    {% if author.username == request.user.username %}
+    <a href="{% url 'posts:edit_post' post.id %}"> <button type="button" class="btn btn-info"> Редактировать </button> </a>
+    {% endif %}
     {% if post.public.title %}
     <a href="{% url 'public' post.public.slug %}"> {{post.public.title}}  </a>
     {% endif %}

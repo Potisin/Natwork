@@ -3,7 +3,7 @@
     <nav class="my-2 my-md-0 mr-md-3">
         {% if user.is_authenticated %}
         <a class="p-2 text-green text-sm-center" href="{% url 'posts:new_post' %}">Новая запись</a>
-        <a class="p-2 text-green text-sm-center" href="{% url 'posts:profile' %}">Мои посты</a>
+        <a class="p-2 text-green text-sm-center" href="{% url 'posts:profile' request.user.username %}">Мои посты</a>
         <a class="p-2 text-dark" href="{% url 'users:password_change' %}">Изменить пароль</a>
         <a class="p-2 text-dark" href="{% url 'users:logout' %}">Выйти</a>
         {{ user.username }}
