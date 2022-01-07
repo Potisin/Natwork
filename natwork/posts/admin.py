@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Post
+from .models import Post, Comment
 
 
 class PostAdmin(admin.ModelAdmin):
@@ -9,6 +9,11 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = ("pub_date",)
 
 
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ("pk", "text", "pub_date", "author", "public")
+    search_fields = ("text",)
+    list_filter = ("pub_date",)
+
+
 admin.site.register(Post, PostAdmin)
 # Register your models here.
-

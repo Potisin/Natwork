@@ -5,15 +5,30 @@
 
 <div class="container py-5">
     <h1> {{ post.author.get_full_name }} </h1>
-        <h3>Всего постов: {{ count_author_posts }} </h3>
-
+    <h3>Всего постов: {{ post.author.posts.count }} </h3>
     <h3>
         Дата публикации: {{ post.pub_date }}.
 
     </h3>
     <p> {{post.text|linebreaksbr}} </p>
     {% if post.author.username == request.user.username %}
-    <a  href="{% url 'posts:edit_post' post.id %}"> <button type="button" class="btn btn-info"> Редактировать </button> </a>
+    <a href="{% url 'posts:edit_post' post.id %}">
+        <button type="button" class="btn btn-info"> Редактировать</button>
+    </a>
     {% endif %}
 
+    <h3> Комментарии: </h3>
+
+    {% for comment in post.comments.all %}
+    <h5> Автор: {{comment.author.get_full_name }}, дата: {{comment.pub_date}} </h5>
+
+    <p> {{comment.text|linebreaksbr}}</p>
+
+    {% endfor %}
+
+    <a href="{% url 'posts:new_comment' post.id %}">
+        <button type="button" class="btn btn-secondary"> Комментировать </button>
+    </a>
+
+    {% include 'posts/includes/paginator.html' %}
     {% endblock %}

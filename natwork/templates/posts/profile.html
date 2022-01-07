@@ -5,19 +5,23 @@
 
 <div class="container py-5">
     <h1>Все посты пользователя {{ author.get_full_name }} </h1>
-    <h3>Всего постов: {{ count_posts }} </h3>
+    <h3>Всего постов: {{ author.posts.count }} </h3>
     {% for post in page_obj %}
     <h3>
         Дата публикации: {{ post.pub_date }}.
 
     </h3>
     <p> {{post.text|linebreaksbr}} </p>
-    <a href="{% url 'posts:post_detail' post.id %}"> <button type="button" class="btn btn-primary">Подробнее</button> </a>
+    <a href="{% url 'posts:post_detail' post.id %}">
+        <button type="button" class="btn btn-primary">Комментарии: {{post.comments.count}}</button>
+    </a>
     {% if author.username == request.user.username %}
-    <a href="{% url 'posts:edit_post' post.id %}"> <button type="button" class="btn btn-info"> Редактировать </button> </a>
+    <a href="{% url 'posts:edit_post' post.id %}">
+        <button type="button" class="btn btn-info"> Редактировать</button>
+    </a>
     {% endif %}
     {% if post.public.title %}
-    <a href="{% url 'public' post.public.slug %}"> {{post.public.title}}  </a>
+    <a href="{% url 'public' post.public.slug %}"> {{post.public.title}} </a>
     {% endif %}
 
     {% if not forloop.last %}

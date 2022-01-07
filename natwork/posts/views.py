@@ -1,6 +1,6 @@
 from core.services.paginator import my_paginator
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 from .models import Post, User
 
 
@@ -41,20 +41,30 @@ def edit_post(request, post_id):
 def profile(request, username):
     author = User.objects.get(username=username)
     posts_by_author = Post.objects.filter(author=author.id).order_by('-pub_date')
-    count_posts = posts_by_author.count()
     context = {'author': author,
-               'page_obj': my_paginator(request, posts_by_author, 10),
-               'count_posts': count_posts
+               'page_obj': my_paginator(request, posts_by_author, 10)
                }
     return render(request, 'posts/profile.html', context)
 
 
 def post_detail(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    count_author_posts = Post.objects.filter(author=post.author).count()
-    context = {'post': post,
-               'count_author_posts': count_author_posts}
-    return render(request, 'posts/post_detail.html', context)
+    return render(request, 'posts/post_detail.html', {'post': post})
 
 
+def new_comment(request, post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.author = request.user
+            comment.post = post
+            comment.save()
+            return redirect('posts:post_detail', post_id)
+        return render(request, 'posts/new_comment.html', {'form': form,
+                                                          'post': post})
 
+    form = CommentForm()
+    return render(request, 'posts/new_comment.html', {'form': form,
+                                                      'post': post})

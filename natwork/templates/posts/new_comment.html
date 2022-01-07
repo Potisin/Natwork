@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}
+Новый комментарий
+{% endblock %}
+
+{% block header %}  {% endblock %}
+{% block content %}
+
+<div class="container py-5">
+    <h1> {{ post.author.get_full_name }} </h1>
+
+    <h3>
+        Дата публикации: {{ post.pub_date }}.
+
+    </h3>
+    <p> {{post.text|linebreaksbr}} </p>
+
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-md-8 p-5">
+        <div class="card">
+            <div class="card-header">Новый комментарий</div>
+            <div class="card-body">
+
+                {% load user_filters %}
+
+                <form method="post" class="form-group row">
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                    <div class="ml-auto mr-auto mb-3">
+                        <label for="{{ field.id_for_label }}">
+                            {{ field.label }}
+
+                            {% if field.field.required %}
+                            <span class="required text-danger">*</span>
+                            {% endif %}
+                        </label>
+                        {# К полю ввода добавляем атрибут class #}
+                        {{ field|addclass:'form-control' }}
+                        {% if field.help_text %}
+                        <small
+                                id="{{ field.id_for_label }}-help"
+                                class="form-text text-muted"
+                        >
+                            {{ field.help_text|safe }}
+                        </small>
+                        {% endif %}
+
+                        {% endfor %}
+                    </div>
+
+                    <div class="col-md-5 offset-md-5">
+                        <button type="submit" class="btn btn-primary">
+
+                            Отправить
+
+                        </button>
+                    </div>
+                </form>
+            </div> <!-- card body -->
+        </div> <!-- card -->
+    </div> <!-- col -->
+</div> <!-- row -->
+
+{% endblock %}
