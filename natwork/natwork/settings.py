@@ -16,6 +16,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -25,7 +26,8 @@ SECRET_KEY = 'lrwb%_&rb^*fi(rnu3g*su8)8omy=#r-4k3qw2p5iq5awk@5x*'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['potisin.pythonanywhere.com']
+
 
 # Application definition
 
@@ -34,6 +36,7 @@ INSTALLED_APPS = [
     'public',
     'posts',
     'core',
+    'messages',
     'about',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # 'django_extensions',
+    #'django_extensions',
 ]
 
 MIDDLEWARE = [
@@ -76,6 +79,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'natwork.wsgi.application'
 
+
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -85,6 +89,7 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -104,6 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -117,16 +123,23 @@ USE_L10N = True
 
 USE_TZ = True
 
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+
+# STATIC_URL = '/home/potisin/potisin.pythonanywhere.com/natwork/static'
+
+# STATIC_ROOT = os.path.join(BASE_DIR, "natwork", "static")
+
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+STATIC_ROOT = '/home/potisin/potisin.pythonanywhere.com/natwork/static'
 
 
 LOGIN_URL = "/auth/login/"
 LOGIN_REDIRECT_URL = "posts:index"
-# LOGOUT_REDIRECT_URL = "index"
+#LOGOUT_REDIRECT_URL = "index"
 
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 # указываем директорию, в которую будут складываться файлы писем
