@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'public',
     'posts',
     'core',
-    'messages',
+    'chats',
     'about',
     'django.contrib.admin',
     'django.contrib.auth',

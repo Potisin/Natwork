@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .forms import PrivateMessageForm
+from posts.models import User
 
 
 def new_message(request, username):
@@ -10,7 +11,7 @@ def new_message(request, username):
             message = form.save(commit=False)
             message.from_user = request.user
             message.to_user = to_user.id
-            meassage.save()
+            message.save()
             return redirect(request.path) #ну это не сработает конечно же, пофикси потом
         return render(request, 'new_message.html', {'form': form})
     form = PrivateMessageForm()

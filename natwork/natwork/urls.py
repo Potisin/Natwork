@@ -23,5 +23,6 @@ urlpatterns = [
     path('public/', include('public.urls')),
     path('admin/', admin.site.urls),
     path('about/', include('about.urls', namespace='about')),
+    path('chats/', include('chats.urls', namespace='chats'))
 
 ]
