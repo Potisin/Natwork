@@ -1,8 +1,8 @@
 from django import forms
-from .models import PrivateMessage
+from .models import Message
 
 
-class PrivateMessageForm(forms.ModelForm):
+class MessageForm(forms.ModelForm):
     class Meta:
-        model = PrivateMessage
+        model = Message
         fields = ('text',)
