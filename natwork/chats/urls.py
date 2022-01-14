@@ -4,7 +4,7 @@ from . import views
 app_name = 'chats'
 
 urlpatterns = [
-    # path(),
-    path('new_message', views.new_message, name='new_message'),
     path('', views.chats, name='chats'),
+    path('create/<int:user_id>/', views.CreateChatView.as_view(), name='create_chat'),
+    path('<int:chat_id>/', views.MessagesView.as_view(), name='messages'),
 ]

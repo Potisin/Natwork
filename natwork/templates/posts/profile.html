@@ -3,6 +3,9 @@
 {% block header %}  {% endblock %}
 {% block content %}
 
+<a href="{% url 'chats:create_chat' author.id %}">
+    <button type="button" class="btn btn-info"> Личное сообщение </button> </a>
+
 <div class="container py-5">
     <h1>Все посты пользователя {{ author.get_full_name }} </h1>
     <h3>Всего постов: {{ author.posts.count }} </h3>
