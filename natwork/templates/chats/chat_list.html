@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block title %} Сообщения {% endblock %}
+{% block header %} Сообщения {% endblock %}
+{% block content %}
+
+<div class="panel">
+    {% load user_filters %}
+    {% if chat_list.count == 0 %}
+    <div class="panel panel-body">{{ "Нет ни одного начатого диалога" }}</div>
+    {% endif %}
+    {% for chat in chat_list %}
+    {% if chat.text.count != 0 %}
+    {% with last_message=chat.messages.last %}
+    {% get_companion user chat as companion %}
+    <a class="list-group-item" href="{% url 'chats:messages' companion.id %}">
+        <div class="reply-body">
+            <ul class="list-inline">
+                <li class="drop-left-padding">
+                    <strong class="list-group-item-heading">{{ companion.username }}</strong>
+                </li>
+                <li class="pull-right text-muted"><small>{{ last_message.pub_date }}</small></li>
+            </ul>
+            <div class="attached-reply-body">
+                {{ last_message.text|truncatewords:30}}
+            </div>
+        </div>
+    </a>
+    {% endwith %}
+    {% endif %}
+    {% endfor %}
+</div>
+
+{% include 'posts/includes/paginator.html' %}
+
+{% endblock %}
+</body>
+</html>

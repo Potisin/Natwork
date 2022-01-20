@@ -3,7 +3,7 @@
 {% block header %}  {% endblock %}
 {% block content %}
 
-<a href="{% url 'chats:create_chat' author.id %}">
+<a href="{% url 'chats:messages' author.id %}">
     <button type="button" class="btn btn-info"> Личное сообщение </button> </a>
 
 <div class="container py-5">
