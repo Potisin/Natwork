@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
 
 from public.models import Public
 
@@ -14,6 +15,9 @@ class Post(models.Model):
 
     def __str__(self):
         return self.text
+
+    def get_absolute_url(self):
+        return reverse('posts:post_detail', kwargs={'post_id': self.id})
 
 
 class Comment(models.Model):

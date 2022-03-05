@@ -24,3 +24,5 @@ def messages(request, user_id):
         'form': MessageForm()
     }
                   )
+
+

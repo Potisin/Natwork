@@ -1,7 +1,11 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 from core.services.paginator import my_paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import PostForm, CommentForm
 from .models import Post, User
+from django.views.generic.base import View
 
 
 def index(request):
@@ -10,6 +14,7 @@ def index(request):
     return render(request, 'posts/index.html', context)
 
 
+@login_required
 def new_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
@@ -24,6 +29,7 @@ def new_post(request):
     return render(request, 'posts/new.html', {'form': form})
 
 
+@login_required
 def edit_post(request, post_id):
     current_post = Post.objects.defer('pub_date').filter(pk=post_id).first()
     if request.method == 'POST':
@@ -47,14 +53,25 @@ def profile(request, username):
     return render(request, 'posts/profile.html', context)
 
 
-def post_detail(request, post_id):
-    post = get_object_or_404(Post, pk=post_id)
-    return render(request, 'posts/post_detail.html', {'post': post})
+class PostDetailView(View):
+    """ Страница с экземпляром поста """
+
+    def get(self, request, post_id):
+        post = get_object_or_404(Post, pk=post_id)
+        return render(request, 'posts/post_detail.html', {'post': post})
 
 
-def new_comment(request, post_id):
-    post = get_object_or_404(Post, pk=post_id)
-    if request.method == 'POST':
+class NewCommentView(LoginRequiredMixin, View):
+    """Добавление нового комментария"""
+
+    def get(self, request, post_id):
+        post = get_object_or_404(Post, pk=post_id)
+        form = CommentForm()
+        return render(request, 'posts/new_comment.html', {'form': form,
+                                                          'post': post})
+
+    def post(self, request, post_id):
+        post = get_object_or_404(Post, pk=post_id)
         form = CommentForm(request.POST)
         if form.is_valid():
             comment = form.save(commit=False)
@@ -64,7 +81,3 @@ def new_comment(request, post_id):
             return redirect('posts:post_detail', post_id)
         return render(request, 'posts/new_comment.html', {'form': form,
                                                           'post': post})
-
-    form = CommentForm()
-    return render(request, 'posts/new_comment.html', {'form': form,
-                                                      'post': post})
