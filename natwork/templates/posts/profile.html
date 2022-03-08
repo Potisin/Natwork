@@ -3,9 +3,10 @@
 {% block header %}  {% endblock %}
 {% block content %}
 
+{% if author.id != request.user.id %}
 <a href="{% url 'chats:messages' author.id %}">
     <button type="button" class="btn btn-info"> Личное сообщение </button> </a>
-
+{% endif %}
 <div class="container py-5">
     <h1>Все посты пользователя {{ author.get_full_name }} </h1>
     <h3>Всего постов: {{ author.posts.count }} </h3>
@@ -14,7 +15,16 @@
         Дата публикации: {{ post.pub_date }}.
 
     </h3>
+
     <p> {{post.text|linebreaksbr}} </p>
+
+    <div class="card mb-3 mt-1 shadow-sm">
+    {% load thumbnail %}
+    {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
+        <img class="card-img" src="{{ im.url }}">
+    {% endthumbnail %}
+    </div>
+
     <a href="{% url 'posts:post_detail' post.id %}">
         <button type="button" class="btn btn-primary">Комментарии: {{post.comments.count}}</button>
     </a>

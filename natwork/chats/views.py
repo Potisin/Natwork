@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, reverse
 from core.services.services import create_or_find_chat
 from .forms import MessageForm
@@ -9,7 +11,10 @@ def chats(request):
     return render(request, 'chats/chat_list.html', {'chat_list': chat_list})
 
 
+@login_required
 def messages(request, user_id):
+    if user_id == request.user.id:
+        return redirect('/')
     chat = create_or_find_chat(request, user_id)
     if request.method == 'POST':
         form = MessageForm(data=request.POST)
@@ -24,5 +29,3 @@ def messages(request, user_id):
         'form': MessageForm()
     }
                   )
-
-

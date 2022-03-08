@@ -6,13 +6,20 @@
 {% for post in page_obj %}
 <h3>
     Автор:
-    <a href="{{ post.get_absolute_url }}"> {{ post.author.get_full_name }}</a>
+    <a href="  {% url 'posts:profile' post.author.username %}"> {{ post.author.get_full_name }} </a>
     , дата публикации: {{ post.pub_date }},
 
 </h3>
 <p> {{post.text|linebreaksbr}} </p>
 
-<a href="{% url 'posts:post_detail' post.id %}">
+<div class="card mb-3 mt-1 shadow-sm">
+    {% load thumbnail %}
+    {% thumbnail post.image "960x339" crop="center" upscale=True as im %}
+        <img class="card-img" src="{{ im.url }}">
+    {% endthumbnail %}
+</div>
+
+<a href="{{ post.get_absolute_url }}">
     <button type="button" class="btn btn-primary">Комментарии: {{post.comments.count}} </button>
 </a>
 
@@ -24,5 +31,3 @@
 {% include 'posts/includes/paginator.html' %}
 
 {% endblock %}
-</body>
-</html>

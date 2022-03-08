@@ -1,5 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.views import LoginView
+from django.core.exceptions import ValidationError
 from django.test import TestCase, Client
 from django.urls import reverse
 
@@ -47,3 +48,25 @@ class GeneralTestCase(TestCase):
         self.assertEqual((response.context['page_obj'])[-1].text, 'updated')
         response = self.client.get(reverse('posts:post_detail', kwargs={'post_id': self.user.posts.last().id}))
         self.assertEqual(response.context['post'].text, 'updated')
+
+    def test_response_404(self):
+        response = self.client.get('/yandex_dolbaeby/')
+        self.assertEqual(response.status_code, 404)
+
+    def test_img_tag(self):
+        self.client.force_login(self.user)
+        with open('media/posts/social-image.jpg', 'rb') as img:
+            post = self.client.post('/new/', {'text': 'text with image', 'image': img})
+        response = self.client.get('')
+        self.assertContains(response, 'img')
+        response = self.client.get(reverse('posts:profile', kwargs={'username': self.user.username}))
+        self.assertContains(response, 'img')
+        response = self.client.get(reverse('posts:post_detail', kwargs={'post_id': self.user.posts.last().id}))
+        self.assertContains(response, 'img')
+
+    def test_get_not_img(self):
+        self.client.force_login(self.user)
+        with open('media/posts/cheats.txt') as img:
+            self.client.post('/new/', {'text': 'text with image', 'image': img})
+        self.assertEqual(self.user.posts.count(), 0)
+

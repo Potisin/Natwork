@@ -17,7 +17,7 @@ def index(request):
 @login_required
 def new_post(request):
     if request.method == 'POST':
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, files=request.FILES or None)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
@@ -31,9 +31,9 @@ def new_post(request):
 
 @login_required
 def edit_post(request, post_id):
-    current_post = Post.objects.defer('pub_date').filter(pk=post_id).first()
+    current_post = Post.objects.defer('pub_date').filter(pk=post_id).first() #какая то хуйня чтобы не обновлять дату
     if request.method == 'POST':
-        form = PostForm(request.POST, instance=current_post)
+        form = PostForm(request.POST, files=request.FILES or None, instance=current_post)
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
