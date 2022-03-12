@@ -5,10 +5,8 @@
 
     <div class="container">
 
-        {% include "posts/includes/menu.html" with index=True %}
-
+        {% include "posts/includes/menu.html" with follow=True %}
                 {% for post in page_obj %}
-
                     {% include 'posts/includes/post_item.html' with post=post %}
                 {% endfor %}
     </div>

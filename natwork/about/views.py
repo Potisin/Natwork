@@ -7,4 +7,4 @@ class AboutAuthorView(TemplateView):
 
 class AboutTechView(TemplateView):
     template_name = 'about/tech.html'
-# Create your views here.
+

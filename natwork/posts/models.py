@@ -20,6 +20,9 @@ class Post(models.Model):
     def get_absolute_url(self):
         return reverse('posts:post_detail', kwargs={'post_id': self.id})
 
+    class Meta:
+        ordering = ['-pub_date']
+
 
 class Comment(models.Model):
     text = models.TextField()

@@ -1,5 +1,4 @@
 from django.contrib.auth.decorators import login_required
-from django.core.exceptions import ValidationError
 from django.shortcuts import render, redirect, reverse
 from core.services.services import create_or_find_chat
 from .forms import MessageForm
