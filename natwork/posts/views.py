@@ -30,7 +30,7 @@ def new_post(request):
     form = PostForm()
     return render(request, 'posts/new.html', {'form': form})
 
-dgs
+
 @login_required
 def edit_post(request, post_id):
     current_post = Post.objects.defer('pub_date').filter(pk=post_id).first()  # какая то херня чтобы не обновлять дату
